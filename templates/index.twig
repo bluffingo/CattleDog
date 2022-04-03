@@ -1,0 +1,28 @@
+{% extends "_layout.twig" %}
+
+{% block title %}Home{% endblock %}
+
+	{% block content %}
+	<h1>Chaziz Migration Tool</h1>
+	<table class="table table-striped">
+	  <tr>
+		<th>Website</th>
+		<th>All videos</th>
+		<th>All users</th>
+		<th>All comments*</th>
+	  </tr>
+	  <tr>
+		<td>squareBracket</td>
+		<td>{{ sbVideos }}</td>
+		<td>{{ sbUsers }}</td>
+		<td>{{ sbComments }}</td>
+	  </tr>
+	  <tr>
+		<td>PokTube</td>
+		<td>{{ pokVideos }}</td>
+		<td>{{ pokUsers }}</td>
+		<td>{{ pokComments }}</td>
+	  </tr>
+	</table>
+	<p>* User and video comments on PokTube are in the same table.</p>
+	{% endblock %}
