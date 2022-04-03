@@ -34,14 +34,6 @@ function sbResult($query,$params = []) {
 	return $res->fetchColumn();
 }
 
-function sbFetchArray($query) {
-	$out = [];
-	while ($record = $query->fetch()) {
-		$out[] = $record;
-	}
-	return $out;
-}
-
 function sbInsertId() {
 	global $sbSQL;
 	return $sbSQL->lastInsertId();
@@ -65,15 +57,15 @@ function pokResult($query,$params = []) {
 	return $res->fetchColumn();
 }
 
-function pokFetchArray($query) {
+function pokInsertId() {
+	global $pokSQL;
+	return $pokSQL->lastInsertId();
+}
+
+function fetchArray($query) {
 	$out = [];
 	while ($record = $query->fetch()) {
 		$out[] = $record;
 	}
 	return $out;
-}
-
-function pokInsertId() {
-	global $pokSQL;
-	return $pokSQL->lastInsertId();
 }
