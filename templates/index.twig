@@ -4,7 +4,9 @@
 
 	{% block content %}
 	<h1>Chaziz Migration Tool</h1>
-	<p>PokTube-to-squareBracket migration script... done a year late</p>
+	<p>PokTube-to-squareBracket migration script... done a year late<br>
+	The script expects that accounts in a PokTube (or FrameBit-compatible) database were already migrated over to squareBracket, which was already done on the official instance.
+	As such, this tool does not have code for converting accounts.</p>
 	<table class="table table-striped">
 	  <tr>
 		<th>Website</th>
@@ -19,7 +21,7 @@
 		<td>{{ sbComments }}</td>
 	  </tr>
 	  <tr>
-		<td>PokTube</td>
+		<td>PokTube (or FrameBit-compatible)</td>
 		<td>{{ pokVideos }}</td>
 		<td>{{ pokUsers }}</td>
 		<td>{{ pokComments }}</td>
