@@ -41,3 +41,14 @@ function clearMentions($type, $id) {
 		query("DELETE FROM notifications WHERE type = ? AND level = ? AND recipient = ?", [cmtTypeToNum($type) + 10, $id, $userdata['id']]);
 	}
 }
+
+function array_remove_by_value($array, $value)
+{
+    return array_values(array_diff($array, array($value)));
+}
+
+function stripBBCode($text_to_search) {
+	$pattern = '|[[\\/\\!]*?[^\\[\\]]*?]|si';
+	$replace = '';
+	return preg_replace($pattern, $replace, $text_to_search);
+}

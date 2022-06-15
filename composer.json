@@ -2,6 +2,7 @@
 	"require": {
 		"twig/twig": "^3.0",
 		"erusev/parsedown": "9999999-dev",
-		"codedungeon/php-cli-colors": "~1.0"
+		"codedungeon/php-cli-colors": "~1.0",
+		"intervention/image": "^2.7"
 	}
 }
