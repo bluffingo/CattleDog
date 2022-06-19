@@ -11,9 +11,9 @@ try {
 	die("Error - Can't connect to squareBracket database. Please try again later.");
 }
 try {
-	$pokSQL = new PDO("mysql:host=$host;dbname=$poktubeDB;charset=utf8mb4", $user, $pass, $options);
+	$otherSQL = new PDO("mysql:host=$host;dbname=$otherDB;charset=utf8mb4", $user, $pass, $options);
 } catch (\PDOException $e) {
-	die("Error - Can't connect to PokTube database. Please try again later.");
+	die("Error - Can't connect to other database. Please try again later.");
 }
 
 function sbQuery($query,$params = []) {
@@ -39,27 +39,27 @@ function sbInsertId() {
 	return $sbSQL->lastInsertId();
 }
 
-function pokQuery($query,$params = []) {
-	global $pokSQL;
+function otherQuery($query,$params = []) {
+	global $otherSQL;
 
-	$res = $pokSQL->prepare($query);
+	$res = $otherSQL->prepare($query);
 	$res->execute($params);
 	return $res;
 }
 
-function pokFetch($query,$params = []) {
-	$res = pokQuery($query,$params);
+function otherFetch($query,$params = []) {
+	$res = otherQuery($query,$params);
 	return $res->fetch();
 }
 
-function pokResult($query,$params = []) {
-	$res = pokQuery($query,$params);
+function otherResult($query,$params = []) {
+	$res = otherQuery($query,$params);
 	return $res->fetchColumn();
 }
 
-function pokInsertId() {
-	global $pokSQL;
-	return $pokSQL->lastInsertId();
+function otherInsertID() {
+	global $otherSQL;
+	return $otherSQL->lastInsertId();
 }
 
 function fetchArray($query) {

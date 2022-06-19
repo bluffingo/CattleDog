@@ -1,6 +1,20 @@
 #!/usr/bin/php
 <?php
 
+/* PokTube to squareBracket Conversion script
+
+Schizopost time:
+
+This script expects that the $otherDB setting is set to a database with the layout of PokTube. It should not
+be confused with pokTwo, which used a database more simillar to squareBracket. PokTube was based on FrameBit,
+one of the the many attempts at trying to replicate 2005 YouTube. FrameBit was briefly only worked on for a
+while in January 2021 by an individual, and was full of SQL injection vulns (which was why we ditched the
+PokTube codebase in April 2021 in favor writing a new codebase, which became the basis of squareBracket.)
+
+-grkb, June 19th, 2022.
+
+*/
+
 require('lib/common.php');
 use Codedungeon\PHPCliColors\Color;
 use Intervention\Image\ImageManager;
@@ -9,12 +23,11 @@ $manager = new ImageManager(['driver' => 'imagick']);
 
 echo Color::GREEN, 'Chaziz Migration Tool: PokTube to squareBracket Conversion script', Color::RESET, PHP_EOL;
 echo Color::GREEN, '=================================================================', Color::RESET, PHP_EOL;
- 
-// USERS
 
-$users = fetchArray(pokQuery("SELECT * FROM users"));
-$videos = fetchArray(pokQuery("SELECT * FROM videodb WHERE isApproved = 1;")); // declined videos don't go on squarebracket
-$comments = fetchArray(pokQuery("SELECT * FROM comments"));
+
+$users = fetchArray(otherQuery("SELECT * FROM users"));
+$videos = fetchArray(otherQuery("SELECT * FROM videodb WHERE isApproved = 1;")); // declined videos don't go on squarebracket
+$comments = fetchArray(otherQuery("SELECT * FROM comments"));
 
 /*
 explaination time:
@@ -24,6 +37,8 @@ MarineAttia2002 was banned from PokTube due to erratic behaviour
 iGizmo2328 was banned from PokTube for sneaking furry vore porn in the middle of a GoAnimate video.
 blog was an internal account for something that was never implemented.
 */
+
+// USERS
 
 $dontMigrateUsers = ['killer199', 'MarineAttia2002', 'iGizmo2328', 'blog'];
 
@@ -64,7 +79,7 @@ if ($migrateVideos) {
 		{
 			echo Color::GREEN, $video['VideoName'] . " by " . $video['Uploader'] . " doesn't exist on squareBracket database... migrating.", Color::RESET, PHP_EOL;
 			if ($video['VideoID'] != "V05kmlJpDzC") {
-				if (pokResult("SELECT HQVideoFile from videodb WHERE VideoID = ?", [$video['VideoID']])) {
+				if (otherResult("SELECT HQVideoFile from videodb WHERE VideoID = ?", [$video['VideoID']])) {
 					echo Color::GRAY, $video['VideoName'] . " by " . $video['Uploader'] . " is in HD.", Color::RESET, PHP_EOL;
 					$properFile = $video['HQVideoFile'];
 				} else {
@@ -75,7 +90,7 @@ if ($migrateVideos) {
 				echo Color::GRAY, $video['VideoName'] . " by " . $video['Uploader'] . "'s HD file is invalid", Color::RESET, PHP_EOL;
 				$properFile = $video['VideoFile'];
 			}
-			$properFile = $poktubeFiles . "/" . $properFile;
+			$properFile = $otherFiles . "/" . $properFile;
 			$sbVideoLocation = "/videos/" . $video['VideoID'] . ".converted.mp4";
 			$copyFileTo = $squarebracketFiles . $sbVideoLocation;
 			$uploaderID = sbResult("SELECT id from users WHERE name = ?", [$video['Uploader']]); // this should work if users were migrated before
@@ -89,7 +104,7 @@ if ($migrateVideos) {
 		} else {
 			echo Color::GRAY, $video['VideoName'] . " by " . $video['Uploader'] . " already exists... skipping.", Color::RESET, PHP_EOL;
 		}
-		$pokThumbFile = $poktubeFiles . "/content/thumbs/" . $video['VideoID'] . ".png";
+		$pokThumbFile = $otherFiles . "/content/thumbs/" . $video['VideoID'] . ".png";
 		$sbThumbFile = $squarebracketFiles . "/assets/thumb/" . $video['VideoID'] . ".png";
 		if(!copy($pokThumbFile,$sbThumbFile)){
 			echo "failed to copy " . $properFile; // FIXME: call ffmpeg to generate thumbnail for any vids that don't have that.

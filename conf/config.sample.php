@@ -1,12 +1,12 @@
 <?php
 $host = '127.0.0.1';
 $squarebracketDB = 'squarebracket';
-$poktubeDB = 'poktube'; // NOT POKTWO
+$otherDB = 'poktube';
 $user = '';
 $pass = '';
 
 $squarebracketFiles = "C:\xampp\squareBracket";
-$poktubeFiles = "C:\xampp\PokTube";
+$otherFiles = "C:\xampp\PokTube";
 
 $tplCache = 'templates/cache';
 $tplNoCache = false; // **DO NOT SET AS TRUE IN PROD - DEV ONLY**
