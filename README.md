@@ -1,2 +1,3 @@
-# ChazizMigrationTool
-A tool to migrate old 2021 PokTube database contents to squareBracket database
+# cattleDog
+The official grkb tool to migrate database contents of dead amateur video sharing websites to a squareBracket-style database.
+

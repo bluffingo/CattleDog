@@ -16,8 +16,8 @@ foreach (glob("lib/*.php") as $file) {
 if (!file_exists($squarebracketFiles . "/index.php")) {
     die("squareBracket instance does not seem to exist outside of database. Make sure it is pointed to the right directory.");
 }
-if (!file_exists($poktubeFiles . "/index.php")) {
-    die("PokTube instance does not seem to exist outside of database. Make sure it is pointed to the right directory.");
+if (!file_exists($otherFiles . "/index.php")) {
+    die("Other instance does not seem to exist outside of database. Make sure it is pointed to the right directory.");
 }
 
 if (!empty($blockedUA) && isset($_SERVER['HTTP_USER_AGENT'])) {

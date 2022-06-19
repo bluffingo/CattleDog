@@ -11,6 +11,10 @@ $otherFiles = "C:\xampp\PokTube";
 $tplCache = 'templates/cache';
 $tplNoCache = false; // **DO NOT SET AS TRUE IN PROD - DEV ONLY**
 
+$migrateComments = false;
+$migrateUsers = false;
+$migrateVideos = false;
+
 // Array of memcached server(s) for memcache caching. Leave empty to disable memcache caching.
 $memcachedServers = [];
 

@@ -21,7 +21,7 @@ use Intervention\Image\ImageManager;
 
 $manager = new ImageManager(['driver' => 'imagick']);
 
-echo Color::GREEN, 'Chaziz Migration Tool: PokTube to squareBracket Conversion script', Color::RESET, PHP_EOL;
+echo Color::GREEN, 'cattleDog: PokTube to squareBracket Conversion script', Color::RESET, PHP_EOL;
 echo Color::GREEN, '=================================================================', Color::RESET, PHP_EOL;
 
 
