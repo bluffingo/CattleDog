@@ -93,9 +93,36 @@ if ($migrateVideos) {
 		} else {
 			echo Color::GRAY, $video['title'] . " by " . $authorName . " already exists... skipping.", Color::RESET, PHP_EOL;
 		}
+		$p2ThumbFile = $otherFiles . "/thumbs/" . $video['VideoID'] . ".2.jpg"; // poktwo generated three (or two if it fucked up) thumbnails for every video due to yt 2005.
+		$sbThumbFile = $squarebracketFiles . "/assets/thumb/" . $video['VideoID'] . ".png";
+		$img = $manager->make($p2ThumbFile);
+		$img->resize(640, 360);
+		$img->save($sbThumbFile, 0, 'png');
+	}
+	
+	foreach ($views as $view)
+	{
+		if (sbFetch("SELECT COUNT(video_id) FROM views WHERE video_id=? AND user=?", [$view['video_id'], $view['user']])['COUNT(video_id)'] < 1) {
+			sbQuery("INSERT INTO views (video_id, user) VALUES (?,?)", 
+				[$view['video_id'],$view['user']]);
+		}
 	}
 }
 
 if ($migrateComments) {
-
+	echo Color::GREEN, 'COMMENT CONVERSION', Color::RESET, PHP_EOL;
+	echo Color::GREEN, '=================================================================', Color::RESET, PHP_EOL;
+	
+	foreach ($comments as $comment)
+	{
+		$authorName = otherResult("SELECT name from users WHERE id = ?", [$comment['author']]);
+		$newAuthorID = sbResult("SELECT id from users WHERE name = ?", [$authorName]);
+		if (sbFetch("SELECT COUNT(id) FROM comments WHERE id=? AND author=? AND comment=?", [$comment['id'], $newAuthorID, $comment['comment']])['COUNT(id)'] < 1) {
+			echo Color::GREEN, 'Porting comment from video ' . $comment['id'] . ' by user ' . $authorName . '.', Color::RESET, PHP_EOL;
+			sbQuery("INSERT INTO comments (id, comment, author, date) VALUES (?,?,?,?)", 
+				[$comment['id'],$comment['comment'],$newAuthorID,$comment['date']]);
+		} else {
+			echo Color::GRAY, 'Comment from video ' . $comment['id'] . ' by user ' . $authorName . ' already exists or it is spam.', Color::RESET, PHP_EOL;
+		}
+	}
 }
