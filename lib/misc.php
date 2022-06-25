@@ -16,17 +16,17 @@ function register($name, $pass, $mail) {
 }
 
 /**
- * Get hash of latest git commit
+ * Get hash of a local repository's latest git commit
  *
  * @param bool $trim Trim the hash to the first 7 characters
  * @return void
  */
-function gitCommit($trim = true) {
+function gitCommit($directory, $branch, $trim = true,) {
 	global $acmlm;
 
-	$prefix = ($acmlm ? '../' : '');
+	$prefix = ($acmlm ? '../' : $directory . "/");
 
-	$commit = file_get_contents($prefix.'.git/refs/heads/main');
+	$commit = file_get_contents($prefix.'.git/refs/heads/'.$branch);
 
 	if ($trim)
 		return substr($commit, 0, 7);
