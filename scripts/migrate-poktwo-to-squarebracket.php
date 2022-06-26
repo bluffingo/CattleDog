@@ -29,7 +29,6 @@ $manager = new ImageManager(['driver' => 'imagick']);
 echo Color::GREEN, 'cattleDog: PokTwo to squareBracket Conversion script', Color::RESET, PHP_EOL;
 echo Color::GREEN, '=================================================================', Color::RESET, PHP_EOL;
 
-
 $users = fetchArray(otherQuery("SELECT * FROM users"));
 $videos = fetchArray(otherQuery("SELECT * FROM videos"));
 $views = fetchArray(otherQuery("SELECT * FROM views"));
@@ -93,16 +92,21 @@ if ($migrateVideos) {
 		} else {
 			echo Color::GRAY, $video['title'] . " by " . $authorName . " already exists... skipping.", Color::RESET, PHP_EOL;
 		}
-		$p2ThumbFile = $otherFiles . "/thumbs/" . $video['VideoID'] . ".2.jpg"; // poktwo generated three (or two if it fucked up) thumbnails for every video due to yt 2005.
-		$sbThumbFile = $squarebracketFiles . "/assets/thumb/" . $video['VideoID'] . ".png";
-		$img = $manager->make($p2ThumbFile);
-		$img->resize(640, 360);
-		$img->save($sbThumbFile, 0, 'png');
+		$p2ThumbFile = $otherFiles . "/thumbs/" . $video['video_id'] . ".2.jpg"; // poktwo generated three (or two if it fucked up) thumbnails for every video due to yt 2005.
+		$sbThumbFile = $squarebracketFiles . "/assets/thumb/" . $video['video_id'] . ".png";
+		if (!file_exists($p2ThumbFile)) {
+			echo Color::GRAY, $video['title'] . " by " . $authorName . " has no thumbnail. skipping.", Color::RESET, PHP_EOL;
+		} else {
+			$img = $manager->make($p2ThumbFile);
+			$img->resize(640, 360);
+			$img->save($sbThumbFile, 0, 'png');
+		}
 	}
 	
 	foreach ($views as $view)
 	{
 		if (sbFetch("SELECT COUNT(video_id) FROM views WHERE video_id=? AND user=?", [$view['video_id'], $view['user']])['COUNT(video_id)'] < 1) {
+			echo Color::GRAY, "Migrating view from " . $view['user'] . " in " . $view['video_id'], Color::RESET, PHP_EOL;
 			sbQuery("INSERT INTO views (video_id, user) VALUES (?,?)", 
 				[$view['video_id'],$view['user']]);
 		}
