@@ -20,11 +20,12 @@ In conclusion, pokTwo's dead, and let's just move the files over to squareBracke
 
 */
 
+$needOtherInstance = true;
 require('lib/common.php');
 use Codedungeon\PHPCliColors\Color;
 use Intervention\Image\ImageManager;
 
-$manager = new ImageManager(['driver' => 'imagick']);
+$manager = new ImageManager();
 
 echo Color::GREEN, 'cattleDog: PokTwo to squareBracket Conversion script', Color::RESET, PHP_EOL;
 echo Color::GREEN, '=================================================================', Color::RESET, PHP_EOL;

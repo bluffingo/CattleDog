@@ -13,11 +13,13 @@ foreach (glob("lib/*.php") as $file) {
 	require_once($file);
 }
 
-if (!file_exists($squarebracketFiles . "/index.php")) {
+if (!file_exists($squarebracketFiles . "/public/index.php")) {
     die("squareBracket instance does not seem to exist outside of database. Make sure it is pointed to the right directory.");
 }
-if (!file_exists($otherFiles . "/index.php")) {
-    die("Other instance does not seem to exist outside of database. Make sure it is pointed to the right directory.");
+if (!$needOtherInstance) {
+	if (!file_exists($otherFiles . "/index.php")) {
+		die("Other instance does not seem to exist outside of database. Make sure it is pointed to the right directory.");
+	}
 }
 
 if (!empty($blockedUA) && isset($_SERVER['HTTP_USER_AGENT'])) {

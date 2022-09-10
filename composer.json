@@ -3,6 +3,8 @@
 		"twig/twig": "^3.0",
 		"erusev/parsedown": "9999999-dev",
 		"codedungeon/php-cli-colors": "~1.0",
-		"intervention/image": "^2.7"
+		"intervention/image": "^2.7",
+		"php-ffmpeg/php-ffmpeg": "1.0.0",
+		"aminyazdanpanah/php-ffmpeg-video-streaming": "^1.2"
 	}
 }

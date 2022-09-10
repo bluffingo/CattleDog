@@ -15,11 +15,12 @@ PokTube codebase in April 2021 in favor writing a new codebase, which became the
 
 */
 
+$needOtherInstance = true;
 require('lib/common.php');
 use Codedungeon\PHPCliColors\Color;
 use Intervention\Image\ImageManager;
 
-$manager = new ImageManager(['driver' => 'imagick']);
+$manager = new ImageManager();
 
 echo Color::GREEN, 'cattleDog: PokTube to squareBracket Conversion script', Color::RESET, PHP_EOL;
 echo Color::GREEN, '=================================================================', Color::RESET, PHP_EOL;

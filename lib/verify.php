@@ -12,26 +12,23 @@ script is launched.
 */
 
 require('lib/common.php');
+use Codedungeon\PHPCliColors\Color;
 
 $_SESSION['isCattleDog'] = true;
 $isDebug = false;
 $isMaintenance = false;
+$sbCommon = $squarebracketFiles . '/private/class/common.php';
 
-require($squarebracketFiles . '/lib/common.php'); // required to get version number
-
-use Codedungeon\PHPCliColors\Color;
-
-echo Color::GREEN, 'cattleDog: Verification Script', Color::RESET, PHP_EOL;
+echo Color::GREEN, 'cattleDog: Verification', Color::RESET, PHP_EOL;
 echo Color::GREEN, '=================================================================', Color::RESET, PHP_EOL;
 
-if(!isset($versionNumber)) {
-  echo Color::RED, "squareBracket instance does not report a version number, outdated version? (Implemented in March 2022 during Beta 2.1.0)", Color::RESET, PHP_EOL;
-  $hasError = true;
+if(!file_exists($sbCommon)) {
+	echo Color::RED, 'squareBracket instance is not refactored Beta 3+', Color::RESET, PHP_EOL;
+	$hasError = true;
+} else {
+	require($sbCommon);
 }
-if(!isset($gitBranch)) {
-  echo Color::RED, "squareBracket instance does not report Git Branch, outdated version? (Implemented in June 2022 during Beta 2.1.0)", Color::RESET, PHP_EOL;
-  $hasError = true;
-}
+
 if(isset($hasError)) {
 	die("cattleDog cannot run until these issues are fixed!");
 }
@@ -43,8 +40,12 @@ echo Color::GRAY, 'Setting: squareBracket Files Directory: ' . $squarebracketFil
 
 echo Color::GRAY, '=================================================================', Color::RESET, PHP_EOL;
 
-echo Color::GRAY, 'Setting: Other Database Name: ' . $otherDB, Color::RESET, PHP_EOL;
-echo Color::GRAY, 'Setting: Other Files Directory: ' . $otherFiles, Color::RESET, PHP_EOL;
+if($needOtherInstance) {
+	echo Color::GRAY, 'Setting: Other Database Name: ' . $otherDB, Color::RESET, PHP_EOL;
+	echo Color::GRAY, 'Setting: Other Files Directory: ' . $otherFiles, Color::RESET, PHP_EOL;
+} else {
+	echo Color::YELLOW, 'This script does not require a non-SB instance', Color::RESET, PHP_EOL;
+}
 
 echo Color::GRAY, '=================================================================', Color::RESET, PHP_EOL;
 
