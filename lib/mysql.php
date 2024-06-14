@@ -6,14 +6,9 @@ $options = [
 	PDO::ATTR_EMULATE_PREPARES		=> false,
 ];
 try {
-	$sbSQL = new PDO("mysql:host=$host;dbname=$squarebracketDB;charset=utf8mb4", $user, $pass, $options);
+	$sbSQL = new PDO("mysql:host=$host;charset=utf8mb4", $user, $pass, $options);
 } catch (\PDOException $e) {
 	die("Error - Can't connect to squareBracket database. Please try again later.");
-}
-try {
-	$otherSQL = new PDO("mysql:host=$host;dbname=$otherDB;charset=utf8mb4", $user, $pass, $options);
-} catch (\PDOException $e) {
-	die("Error - Can't connect to other database. Please try again later.");
 }
 
 function sbQuery($query,$params = []) {
