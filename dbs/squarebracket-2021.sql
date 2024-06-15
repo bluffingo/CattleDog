@@ -133,8 +133,7 @@ CREATE TABLE `users` (
   `color` varchar(7) COLLATE utf8mb4_unicode_ci DEFAULT '#523bb8' COMMENT 'The color that the user has set for their profile',
   `language` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'en-US' COMMENT 'Language (Defaults to English)',
   `u_flags` tinyint(4) UNSIGNED NOT NULL DEFAULT 0 COMMENT '8 bools to determine certain user properties',
-  `powerlevel` tinyint(4) UNSIGNED NOT NULL DEFAULT 1 COMMENT '0 - banned. 1 - normal user. 2 - moderator. 3 - administrator',
-  `blockland_id` int(11) NOT NULL COMMENT 'Blockland ID, intended for internal Vitre testing.'
+  `powerlevel` tinyint(4) UNSIGNED NOT NULL DEFAULT 1 COMMENT '0 - banned. 1 - normal user. 2 - moderator. 3 - administrator'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -159,29 +158,6 @@ CREATE TABLE `videos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
-
---
--- Table structure for table `vitre_friends`
---
-
-CREATE TABLE `vitre_friends` (
-  `userID` int(11) NOT NULL,
-  `friendID` int(11) NOT NULL,
-  `isPending` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `vitre_rooms`
---
-
-CREATE TABLE `vitre_rooms` (
-  `id` int(11) NOT NULL,
-  `image` text NOT NULL,
-  `title` text NOT NULL,
-  `users` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables
@@ -209,18 +185,6 @@ ALTER TABLE `users`
 -- Indexes for table `videos`
 --
 ALTER TABLE `videos`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `vitre_friends`
---
-ALTER TABLE `vitre_friends`
-  ADD PRIMARY KEY (`userID`);
-
---
--- Indexes for table `vitre_rooms`
---
-ALTER TABLE `vitre_rooms`
   ADD PRIMARY KEY (`id`);
 
 --
