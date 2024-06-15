@@ -1,6 +1,7 @@
 {
 	"require": {
 		"codedungeon/php-cli-colors": "~1.0",
-		"intervention/image": "^2.7"
+		"intervention/image": "^2.7",
+		"ext-pdo": "*"
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 if (!file_exists('conf/config.php')) {
-	die('Please read the installing instructions in the README file.');
+	die('Configuration is missing.');
 }
 
 require_once('conf/config.php');

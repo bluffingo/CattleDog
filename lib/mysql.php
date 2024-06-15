@@ -1,66 +1,76 @@
 <?php
 
-$options = [
-	PDO::ATTR_ERRMODE				=> PDO::ERRMODE_EXCEPTION,
-	PDO::ATTR_DEFAULT_FETCH_MODE	=> PDO::FETCH_ASSOC,
-	PDO::ATTR_EMULATE_PREPARES		=> false,
-];
-try {
-	$sbSQL = new PDO("mysql:host=$host;charset=utf8mb4", $user, $pass, $options);
-} catch (\PDOException $e) {
-	die("Error - Can't connect to squareBracket database. Please try again later.");
-}
+// copied from opensb
 
-function sbQuery($query,$params = []) {
-	global $sbSQL;
+/**
+ * PDO interface(?).
+ *
+ * @since openSB Pre-Alpha 1
+ */
+class Database
+{
+    private PDO $sql;
 
-	$res = $sbSQL->prepare($query);
-	$res->execute($params);
-	return $res;
-}
+    public function __construct($host, $user, $pass, $db = null)
+    {
+        $options = [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET sql_mode="TRADITIONAL"'
+        ];
+        try {
+            if ($db) {
+                $this->sql = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass, $options);
+            } else {
+                $this->sql = new PDO("mysql:host=$host;charset=utf8mb4", $user, $pass, $options);
+            }
+        } catch (PDOException $e) {
+            throw new \Exception('The database is currently not available. [' . $e . ']');
+        }
+    }
 
-function sbFetch($query,$params = []) {
-	$res = sbQuery($query,$params);
-	return $res->fetch();
-}
+    public function result($query, $params = [])
+    {
+        $res = $this->query($query, $params);
+        return $res->fetchColumn();
+    }
 
-function sbResult($query,$params = []) {
-	$res = sbQuery($query,$params);
-	return $res->fetchColumn();
-}
+    public function query($query, $params = [])
+    {
+        $res = $this->sql->prepare($query);
+        $res->execute($params);
+        return $res;
+    }
 
-function sbInsertId() {
-	global $sbSQL;
-	return $sbSQL->lastInsertId();
-}
+    public function fetchArray($query): array
+    {
+        $out = [];
+        while ($record = $query->fetch()) {
+            $out[] = $record;
+        }
+        return $out;
+    }
 
-function otherQuery($query,$params = []) {
-	global $otherSQL;
+    public function fetch($query, $params = [])
+    {
+        $res = $this->query($query, $params);
+        return $res->fetch();
+    }
 
-	$res = $otherSQL->prepare($query);
-	$res->execute($params);
-	return $res;
-}
+    public function insertId()
+    {
+        return $this->sql->lastInsertId();
+    }
 
-function otherFetch($query,$params = []) {
-	$res = otherQuery($query,$params);
-	return $res->fetch();
-}
+    public function getVersion()
+    {
+        return $this->sql->getAttribute(PDO::ATTR_SERVER_VERSION);
+    }
 
-function otherResult($query,$params = []) {
-	$res = otherQuery($query,$params);
-	return $res->fetchColumn();
-}
-
-function otherInsertID() {
-	global $otherSQL;
-	return $otherSQL->lastInsertId();
-}
-
-function fetchArray($query) {
-	$out = [];
-	while ($record = $query->fetch()) {
-		$out[] = $record;
-	}
-	return $out;
+    // squarerewinder addition
+    public function executeDirectly($stuff)
+    {
+        return $this->sql->exec($stuff);
+    }
 }
