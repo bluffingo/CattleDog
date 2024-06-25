@@ -27,7 +27,7 @@ $dateLimit = $options['date'];
 
 $date = DateTime::createFromFormat('Y-m-d', $dateLimit);
 
-// poktube production db has been lost since around 2023 so the earliest we can go is april 27th 2021
+// poktube production db has been lost since around 2023 (not anymore) so the earliest we can go is april 27th 2021
 // which is when a pre-alpha version of opensb was first setup on a production instance
 if (!$date || $date < DateTime::createFromFormat('Y-m-d', '2021-04-27')) {
     echo "Invalid date limit. The date must be in the format 'YYYY-MM-DD' and no earlier than '2021-04-27'.\n";
