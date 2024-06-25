@@ -2,6 +2,8 @@
 	"require": {
 		"codedungeon/php-cli-colors": "~1.0",
 		"intervention/image": "^2.7",
-		"ext-pdo": "*"
+		"ext-pdo": "*",
+		"php-ffmpeg/php-ffmpeg": "^1.2",
+		"aminyazdanpanah/php-ffmpeg-video-streaming": "^1.2"
 	}
 }
