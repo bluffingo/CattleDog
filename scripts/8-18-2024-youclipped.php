@@ -86,3 +86,17 @@ foreach ($ycComments as $comment)
     $sbDB->query("INSERT INTO comments (id, comment, author, date, deleted) VALUES (?,?,?,?,?)",
         [$comment['tovideoid'], $comment['comment'], $ycUsernamesToSbIds[$fucked_username], strtotime($comment['date']), 0]);
 }
+
+$ycAnnouncements = $ycDB->fetchArray($ycDB->query("SELECT * FROM announcements"));
+
+foreach ($ycAnnouncements as $announcement)
+{
+    if ($announcement['content']) {
+        $fucked_username = strtolower($announcement["author"]);
+
+        $title = "YouClipped Announcement: " . date("F jS Y", strtotime($announcement['date']));
+
+        $sbDB->query("INSERT INTO journals (title, post, author, date) VALUES (?,?,?,?)",
+            [$title, $announcement['content'], $ycUsernamesToSbIds[$fucked_username], strtotime($announcement['date'])]);
+    }
+}
